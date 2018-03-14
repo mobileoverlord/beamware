@@ -2,31 +2,21 @@ defmodule BeamwareWeb.Plugs.Api.AuthenticateDevice do
   import Plug.Conn
 
   alias Beamware.Devices
-  alias Beamware.Devices.Device
   alias Phoenix.Controller
   alias BeamwareWeb.Api.ErrorView
 
   def init(_), do: nil
 
-  def call(%{req_headers: headers} = conn, _) do
-    headers
-    |> Enum.find(fn
-      {"x-client-dn", "CN=" <> _} -> true
-      _ -> false
-    end)
-    |> case do
-      nil ->
-        {:error, :header_missing}
+  def call(conn, _) do
+    regex = Regex.compile!(".*CN=(?<identifier>[^$]+)")
 
-      {"x-client-dn", "CN=" <> identifier} ->
-        Devices.get_device_by_identifier(identifier)
-    end
-    |> case do
-      {:ok, %Device{} = device} ->
-        conn
-        |> assign(:device, device)
-
-      {:error, _} ->
+    with [dn | _] <- get_req_header(conn, "x-client-dn"),
+         %{"identifier" => identifier} <- Regex.named_captures(regex, dn),
+         {:ok, device} <- Devices.get_device_by_identifier(identifier) do
+      conn
+      |> assign(:device, device)
+    else
+      _ ->
         conn
         |> put_status(:unauthorized)
         |> Controller.put_view(ErrorView)

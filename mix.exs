@@ -41,7 +41,7 @@ defmodule Beamware.Mixfile do
       {:comeonin, "~> 4.1"},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_ecto, "~> 3.3"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
@@ -49,7 +49,8 @@ defmodule Beamware.Mixfile do
       {:cowboy, "~> 1.0"},
       {:swoosh, "~> 0.13"},
       {:timex, "~> 3.1"},
-      {:phoenix_swoosh, "~> 0.2"}
+      {:phoenix_swoosh, "~> 0.2"},
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 

@@ -21,3 +21,6 @@ rebuild-db:
 	mix ecto.create && \
 	mix ecto.migrate && \
 	mix run priv/repo/seeds.exs
+
+release:
+	MIX_ENV=prod mix release --env=prod
