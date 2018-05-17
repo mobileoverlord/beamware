@@ -1,13 +1,16 @@
 # BeamwareClient
 
-An elixir client app used to interface with the BeamwareWeb server
+This directory contains a test client for interacting with the Beamware server
+as a device.
 
-To run the client app:
+First start the Beamware server, then build and start up an IEx session:
 
-* Start the BeamwareWeb server
-* start the client
+```sh
+mix deps.get
+iex -S mix
+```
 
-`iex -S mix`
+Connect as follows:
 
 ```elixir
 iex> DeviceChannel.join
